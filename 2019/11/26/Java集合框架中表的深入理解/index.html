@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java集合框架中表的深入理解 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Collections API是Java中对于一些普通数据结构的实现，里面包含很多东西，但本片就单单对于表讲解。表ADT是在Collections API中实现的数据结构之一。  Collection接口​    Collections API位于java.util包中，其中存储一组类型相同的对象。Collections接口扩展了Iterable（迭代器）接口。实现Iterable接口的类可以拥">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java集合框架中表的深入理解">
+<meta property="og:url" content="http://yoursite.com/2019/11/26/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E4%B8%AD%E8%A1%A8%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Collections API是Java中对于一些普通数据结构的实现，里面包含很多东西，但本片就单单对于表讲解。表ADT是在Collections API中实现的数据结构之一。  Collection接口​    Collections API位于java.util包中，其中存储一组类型相同的对象。Collections接口扩展了Iterable（迭代器）接口。实现Iterable接口的类可以拥">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-11-26T01:14:04.000Z">
+<meta property="article:modified_time" content="2019-12-20T14:33:03.604Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Java Connection">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java集合框架中表的深入理解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/11/26/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E4%B8%AD%E8%A1%A8%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/" class="article-date">
+  <time datetime="2019-11-26T01:14:04.000Z" itemprop="datePublished">2019-11-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java集合框架中表的深入理解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><code>Collections API</code>是<code>Java</code>中对于一些普通数据结构的实现，里面包含很多东西，但本片就单单对于表讲解。表ADT是在<code>Collections API</code>中实现的数据结构之一。</p>
+</blockquote>
+<h2 id="Collection接口"><a href="#Collection接口" class="headerlink" title="Collection接口"></a>Collection接口</h2><p>​    <code>Collections API</code>位于<code>java.util</code>包中，其中存储一组类型相同的对象。<code>Collections</code>接口扩展了<code>Iterable</code>（迭代器）接口。实现<code>Iterable</code>接口的类可以拥有和for循环一样的能力去遍历集合中的所有元素。以下为<code>Collections</code>的所有方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Collection</span>&lt;<span class="title">AnyType</span>&gt; <span class="keyword">extends</span> <span class="title">Iterable</span>&lt;<span class="title">AnyType</span>&gt;</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;								<span class="comment">//获得集合长度</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;						<span class="comment">//查看集合是否为空</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>;							<span class="comment">//清空该集合所有元素</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(AnyType x)</span></span>;			<span class="comment">//查看元素x是否在集合中</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(AnyType x)</span></span>;					<span class="comment">//往集合中添加元素x</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(AnyType x)</span></span>;				<span class="comment">//删除集合中的元素x</span></span><br><span class="line">    java.util.<span class="function">Itertor&lt;AnyType&gt; <span class="title">iterator</span><span class="params">()</span></span>;	<span class="comment">//为该集合添加迭代器</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    以下此例用来遍历集合并打印各个项，将任意类型的集合中所有的项打印出来。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;AnyType&gt; <span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(Collection&lt;AnyType&gt; list)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(AnyType item:list)</span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(item);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Iterator接口"><a href="#Iterator接口" class="headerlink" title="Iterator接口"></a>Iterator接口</h2><p>​    <code>Iterator</code>方法用以实现<code>Iterable</code>接口，该方法返回一个迭代器类型的对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Iterator</span>&lt;<span class="title">AnyType</span>&gt;</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span></span>;						<span class="comment">//查看是否存在下一项</span></span><br><span class="line">    <span class="function">AnyType <span class="title">next</span><span class="params">()</span></span>;							<span class="comment">//给出相应调用次数的该项</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span></span>;							<span class="comment">//删除由next()返回的项</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    <code>Iterator</code>接口的<code>remove()</code>方法值得一提，该方法可以删除由<code>next()</code>最新返回的项。<code>Iterator</code>的<code>remove()</code>方法要优于<code>Collections</code>接口中的<code>remove()</code>方法。优点在于：<code>Collections</code>的<code>remove()</code>方法必须要先找出要被删除的项。如果知道所要删除的项的位置，那么要删除的开销要小很多。如果会有接连删除的情况，那么<code>Iterator</code>的<code>remove()</code>要潜藏着更高的效率。</p>
+<p>​    在获取相应迭代器对象是，必须先声明一个类型的迭代器对象，然后用相应集合的方法获取，实例化声明的对象。下例即为通过获取迭代器对象对集合进行遍历输出的一个实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;AnyType&gt; <span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(Collection&lt;AnyType&gt; list)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Iterator&lt;AntType&gt; iterator = list.iterator();</span><br><span class="line">    <span class="keyword">while</span>(iterator.hasNext())</span><br><span class="line">    &#123;</span><br><span class="line">        AnyType item = iterator.next();</span><br><span class="line">        System.out.println(item);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    依照此迭代器对象即可轻松遍历集合中的所有元素。但也有一个须特别重要的基本法则：如果正在被迭代的集合进行结构上的改变（如<code>add()</code>,<code>remove()</code>或者<code>clear()</code>方法），那么迭代器就不再合法，并且在其后使用该迭代器时都会产生<code>ConcurrentModificationException</code>异常。这意味着，只有在立即需要使用一个迭代器的时候，再获取迭代器。但是如果使用自己的<code>remove()</code>方法改变结构，就不会报错，此迭代器依旧合法。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/11/26/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E4%B8%AD%E8%A1%A8%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/" data-id="ck6yh36xl00003gta076r69pd" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-Connection/" rel="tag">Java Connection</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/11/04/Tomcat%E8%AF%A6%E8%A7%A3%E4%B8%8E%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Tomcat详解与运行机制</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Start/">Start</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github-Pages/" rel="tag">Github Pages</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-Connection/" rel="tag">Java Connection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Github-Pages/" style="font-size: 10px;">Github Pages</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/Java-Connection/" style="font-size: 10px;">Java Connection</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/11/26/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E4%B8%AD%E8%A1%A8%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">Java集合框架中表的深入理解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/04/Tomcat%E8%AF%A6%E8%A7%A3%E4%B8%8E%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/">Tomcat详解与运行机制</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/01/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99-Github-Hexo/">搭建自己的个人博客网站(Github+Hexo)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
